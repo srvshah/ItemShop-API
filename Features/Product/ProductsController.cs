@@ -52,7 +52,7 @@ namespace ItemShop.Features.Product
             {
                 return BadRequest();
             }
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -63,7 +63,7 @@ namespace ItemShop.Features.Product
             {
                 return BadRequest();
             }
-            return NoContent();
+            return Ok();
         }
 
     }

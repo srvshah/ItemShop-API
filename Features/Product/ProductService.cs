@@ -30,7 +30,7 @@ namespace ItemShop.Features.Product
                 Price = price
                
             };
-            await _context.AddAsync(product);
+            await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return product.Id;
 
