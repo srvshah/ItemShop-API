@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ItemShop.Models
+namespace ItemShop.Features.Identity.Models
 {
     public class LoginResponseModel
     {

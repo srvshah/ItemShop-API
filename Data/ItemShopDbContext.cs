@@ -11,7 +11,8 @@ namespace ItemShop.Data
     {
         public ItemShopDbContext(DbContextOptions<ItemShopDbContext> options)
             : base(options)
-        {
-        }
+        {}
+
+        public DbSet<Product> Products { get; set; }
     }
 }

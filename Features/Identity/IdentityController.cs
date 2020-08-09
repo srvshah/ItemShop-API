@@ -1,5 +1,5 @@
 ﻿using ItemShop.Data.Models;
-using ItemShop.Models;
+using ItemShop.Features.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ItemShop.Controllers
+namespace ItemShop.Features.Identity
 {
     public class IdentityController : ApiController
     {

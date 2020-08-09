@@ -15,6 +15,7 @@ using ItemShop.Data.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using ItemShop.Features.Product;
 
 namespace ItemShop
 {
@@ -66,6 +67,7 @@ namespace ItemShop
 
                 };
             });
+            services.AddTransient<IProductService, ProductService>();
             services.AddControllers();
         }
 
