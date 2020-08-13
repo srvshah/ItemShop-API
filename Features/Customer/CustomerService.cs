@@ -38,11 +38,12 @@ namespace ItemShop.Features.Customer
         {
             return await _context.Customers.Select(c => new CustomerListingModel
             {
+                Id = c.Id,
                 Name = c.Name,
                 Address = c.Address,
                 Phone = c.Phone,
                 Gender = GetEnumValue(c.Gender)
-            
+
             }).ToListAsync();
 
         }
@@ -88,11 +89,9 @@ namespace ItemShop.Features.Customer
 
         }
 
-
-
         private static string GetEnumValue(Gender gender)
         {
-            return Enum.GetName(typeof(Gender), (int)gender);
+            return ((int)gender).ToString();
         }
     }
 }

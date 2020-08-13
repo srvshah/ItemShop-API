@@ -19,6 +19,8 @@ namespace ItemShop.Data.Models
 
         [Required]
         public Gender Gender { get; set; }
+
+        public IEnumerable<Transaction> Transactions { get; }
     }
-    public enum Gender { Unknown = 0, Male = 1, Female = 2 }
+    
 }

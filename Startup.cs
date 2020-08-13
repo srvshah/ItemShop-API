@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ItemShop.Features.Product;
 using ItemShop.Features.Customer;
+using ItemShop.Features.Transaction;
+using ItemShop.Features.Invoice;
 
 namespace ItemShop
 {
@@ -70,7 +72,9 @@ namespace ItemShop
             });
             services
                 .AddTransient<IProductService, ProductService>()
-                .AddTransient<ICustomerService, CustomerService>();
+                .AddTransient<ICustomerService, CustomerService>()
+                .AddTransient<ITransactionService, TransactionService>()
+                .AddTransient<IInvoiceService, InvoiceService>();
 
             services.AddControllers();
         }

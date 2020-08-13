@@ -10,6 +10,10 @@
     <Compile Remove="Data\Migrations\20200808162010_AddProductTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200808162044_AddProductTable.cs" />
     <Compile Remove="Data\Migrations\20200808162044_AddProductTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200813122806_AddTransactionInvoiceTables.cs" />
+    <Compile Remove="Data\Migrations\20200813122806_AddTransactionInvoiceTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200813123437_AddTransactionInvoiceTables.cs" />
+    <Compile Remove="Data\Migrations\20200813123437_AddTransactionInvoiceTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
 
