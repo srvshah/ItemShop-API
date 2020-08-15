@@ -54,7 +54,8 @@ namespace ItemShop.Features.Identity
             var encryptedToken = tokenHandler.WriteToken(token);
             return new LoginResponseModel
             {
-                Token = encryptedToken
+                Token = encryptedToken,
+                Username = user.UserName
             };
         }
 

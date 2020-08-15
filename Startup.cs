@@ -75,7 +75,7 @@ namespace ItemShop
                 .AddTransient<ICustomerService, CustomerService>()
                 .AddTransient<ITransactionService, TransactionService>()
                 .AddTransient<IInvoiceService, InvoiceService>();
-
+            services.AddSwaggerGen();
             services.AddControllers();
         }
 
@@ -93,6 +93,14 @@ namespace ItemShop
                 .AllowAnyHeader()
             );
 
+            app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ItemShop V1");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseRouting();
 
             app.UseAuthentication();
