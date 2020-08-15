@@ -9,7 +9,7 @@ namespace ItemShop.Data.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required]   
         public DateTime InvoiceDate { get; set; }
 
         [Required]

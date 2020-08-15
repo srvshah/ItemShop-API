@@ -21,7 +21,7 @@ namespace ItemShop.Features.Transaction
         [HttpPost]
         public async Task<IActionResult> Create(TransactionCreateModel model)
         {
-            var id = await _service.Create(model.CustomerId, model.ProductId, model.Quantity, model.Rate);
+            var id = await _service.Create(model.CustomerId, model.ProductId, model.Quantity);
             return Created(nameof(Create), id);
 
         }
@@ -33,7 +33,7 @@ namespace ItemShop.Features.Transaction
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TransactionListingModel>> GetTransactionById(int id)
+        public async Task<ActionResult<TransactionDetailModel>> GetTransactionById(int id)
         {
             var transaction =  await _service.GetTransactionById(id);
             if(transaction == null)
@@ -57,7 +57,7 @@ namespace ItemShop.Features.Transaction
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTransaction(int id, TransactionUpdateModel model)
         {
-            var updated = await _service.UpdateTransaction(id, model.CustomerId, model.ProductId, model.Quantity, model.Rate, model.InvoiceId);
+            var updated = await _service.UpdateTransaction(id, model.CustomerId, model.ProductId, model.Quantity);
             if (!updated)
             {
                 return BadRequest();

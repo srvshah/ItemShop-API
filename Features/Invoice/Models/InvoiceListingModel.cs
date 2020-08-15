@@ -14,6 +14,10 @@ namespace ItemShop.Features.Invoice.Models
        
         public decimal InvoiceTotal { get; set; }
 
-      
+        public string CustomerName { get; set; }
+
+        public int CustomerId { get; set; }
+
+
     }
 }

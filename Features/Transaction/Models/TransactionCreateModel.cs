@@ -20,8 +20,6 @@ namespace ItemShop.Features.Transaction.Models
         [Required]
         public int Quantity { get; set; }
 
-        [Required]
-        public decimal Rate { get; set; }
 
     }
 }

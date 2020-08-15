@@ -19,15 +19,16 @@ namespace ItemShop.Features.Transaction
             _context = context;
         }
 
-        public async Task<int> Create(int custId, int prodId, int quantity, decimal rate)
+        public async Task<int> Create(int custId, int prodId, int quantity)
         {
+            var product = await _context.Products.FindAsync(prodId);
             var transaction = new Transaction
             {
                 CustomerId = custId,
                 ProductId = prodId,
                 Quantity = quantity,
-                Rate = rate,
-                Total = quantity * rate
+                Rate = product.Price,
+                Total = quantity * product.Price
             };
 
             await _context.Transactions.AddAsync(transaction);
@@ -50,9 +51,9 @@ namespace ItemShop.Features.Transaction
             }).ToListAsync();
         }
 
-        public async Task<TransactionListingModel> GetTransactionById(int id)
+        public async Task<TransactionDetailModel> GetTransactionById(int id)
         {
-            return await _context.Transactions.Where(t => t.Id == id).Select(t => new TransactionListingModel
+            return await _context.Transactions.Where(t => t.Id == id).Select(t => new TransactionDetailModel
             {
                 Id = t.Id,
                 ProductName = t.Product.Name,
@@ -60,7 +61,9 @@ namespace ItemShop.Features.Transaction
                 Quantity = t.Quantity,
                 Rate = t.Rate,
                 Total = t.Total,
-                InvoiceId = t.InvoiceId
+                InvoiceId = t.InvoiceId  ,
+                CustomerId = t.CustomerId,
+                ProductId = t.ProductId
 
             }).FirstOrDefaultAsync();
 
@@ -78,8 +81,13 @@ namespace ItemShop.Features.Transaction
             return true;
         }
 
-        public async Task<bool> UpdateTransaction(int id, int custId, int prodId, int quantity, decimal rate, int? invoiceId)
+        public async Task<bool> UpdateTransaction(int id, int custId, int prodId, int quantity)
         {
+            var product = await _context.Products.FindAsync(prodId);
+            if (product == null)
+            {
+                return false;
+            }
             var transaction = await _context.Transactions.FindAsync(id);
             if(transaction == null)
             {
@@ -89,12 +97,7 @@ namespace ItemShop.Features.Transaction
             transaction.CustomerId = custId;
             transaction.ProductId = prodId;
             transaction.Quantity = quantity;
-            transaction.Rate = rate;
-            transaction.Total = quantity * rate;
-            if(invoiceId != null)
-            {
-                transaction.InvoiceId = invoiceId;
-            }
+            transaction.Total = quantity * product.Price;
 
             await _context.SaveChangesAsync();
             return true;

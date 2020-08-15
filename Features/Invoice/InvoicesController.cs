@@ -1,4 +1,5 @@
 ﻿using ItemShop.Features.Invoice.Models;
+using ItemShop.Features.Transaction.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,18 +14,19 @@ namespace ItemShop.Features.Invoice
     {
         private readonly IInvoiceService _service;
 
-       
-
         public InvoicesController(IInvoiceService service)
         {
             _service = service;
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Create(InvoiceCreateModel model)
         {
             var id = await _service.Create(model.CustomerId);
+            if(id == null)
+            {
+                return NotFound();
+            }
             return Created(nameof(Create), id);
 
         }
@@ -46,6 +48,19 @@ namespace ItemShop.Features.Invoice
             return transaction;
         }
 
+        [HttpGet("transactions/{id}")]
+        public async Task<ActionResult<IEnumerable<TransactionListingModel>>> GetInvoiceTransactions(int id)
+        {
+
+            var invoice = await _service.GetInvoiceById(id);
+            if(invoice == null)
+            {
+                return NotFound();
+            }
+
+            return Ok( await _service.GetInvoiceTransactions(id));
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInvoice(int id)
         {
@@ -56,6 +71,8 @@ namespace ItemShop.Features.Invoice
             }
             return Ok();
         }
+
+
 
     }
 }

@@ -9,6 +9,8 @@ namespace ItemShop.Features.Invoice
 {
     using Data.Models;
     using ItemShop.Features.Invoice.Models;
+    using ItemShop.Features.Transaction.Models;
+    using System.Globalization;
 
     public class InvoiceService: IInvoiceService
     {
@@ -21,11 +23,17 @@ namespace ItemShop.Features.Invoice
             _context = context;
         }
 
-        public async Task<int> Create(int custId)
+        public async Task<int?> Create(int custId)
         {
+            
             var transactions = await _context.Transactions
                 .Where(t => t.CustomerId == custId && t.InvoiceId == null)
                 .ToListAsync();
+
+            if(transactions.Count() == 0)
+            {
+                return null;
+            }
 
             var invoice = new Invoice
             {
@@ -45,24 +53,36 @@ namespace ItemShop.Features.Invoice
 
         public async Task<IEnumerable<InvoiceListingModel>> GetAllInvoices()
         {
-            return await _context.Invoices.Select(i => new InvoiceListingModel
+            return await _context.Invoices
+                .Include(i => i.Transactions)
+                    .ThenInclude(t => t.Customer)
+                .Select(i => new InvoiceListingModel
             {
                 Id = i.Id,
                 InvoiceDate = i.InvoiceDate,
-                InvoiceTotal = i.InvoiceTotal
+                InvoiceTotal = i.InvoiceTotal  ,
+                CustomerId = i.Transactions.FirstOrDefault().Customer.Id,
+                CustomerName = i.Transactions.FirstOrDefault().Customer.Name
             }).ToListAsync();
         }
 
         public async Task<InvoiceListingModel> GetInvoiceById(int id)
         {
-            return await _context.Invoices.Where(i => i.Id == id).Select(i => new InvoiceListingModel 
+            return await _context.Invoices.Where(i => i.Id == id)
+                .Include(i => i.Transactions)
+                    .ThenInclude(t => t.Customer)
+                .Select(i => new InvoiceListingModel 
             {
                 Id = i.Id,
                 InvoiceDate = i.InvoiceDate,
-                InvoiceTotal = i.InvoiceTotal
-                
-            }).FirstOrDefaultAsync();
+                InvoiceTotal = i.InvoiceTotal ,
+                CustomerId = i.Transactions.FirstOrDefault().Customer.Id,
+                CustomerName = i.Transactions.FirstOrDefault().Customer.Name
+
+                }).FirstOrDefaultAsync();
         }
+
+       
 
         public async Task<bool> DeleteInvoice(int id)
         {
@@ -74,6 +94,29 @@ namespace ItemShop.Features.Invoice
             _context.Invoices.Remove(invoice);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<TransactionListingModel>> GetInvoiceTransactions(int id)
+        {
+            var invoice = await _context.Invoices
+                .Include(i => i.Transactions)
+                    .ThenInclude(t => t.Product)
+                .Include(i => i.Transactions)
+                    .ThenInclude(t => t.Customer)
+                .Where(i => i.Id == id).FirstOrDefaultAsync();
+
+            return invoice.Transactions.Select(t => new TransactionListingModel
+            {
+                Id = t.Id,
+                CustomerName = t.Customer.Name,
+                ProductName = t.Product.Name,
+                InvoiceId = t.InvoiceId,
+                Quantity = t.Quantity,
+                Rate = t.Rate,
+                Total = t.Total
+            });
+           
+
         }
     }
 }
