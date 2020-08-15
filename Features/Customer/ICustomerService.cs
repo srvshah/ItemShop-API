@@ -1,5 +1,6 @@
 ﻿using ItemShop.Data.Models;
 using ItemShop.Features.Customer.Models;
+using ItemShop.Features.Transaction.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace ItemShop.Features.Customer
         Task<CustomerDetailModel> GetCustomerById(int id);
         Task<bool> UpdateCustomer(int id, string name, string phone, string address, Gender gender);
         Task<bool> DeleteCustomer(int id);
+        Task<IEnumerable<TransactionListingModel>> GetCustomerTransactions(int id);
     }
 }

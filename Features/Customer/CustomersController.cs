@@ -1,4 +1,5 @@
 ﻿using ItemShop.Features.Customer.Models;
+using ItemShop.Features.Transaction.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -65,6 +66,19 @@ namespace ItemShop.Features.Customer
                 return BadRequest();
             }
             return Ok();
+        }
+
+        [HttpGet("{id}/transactions")]
+        public async Task<ActionResult<IEnumerable<TransactionListingModel>>> GetCustomerTransactions(int id)
+        {
+
+            var customer = await _service.GetCustomerById(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(await _service.GetCustomerTransactions(id));
         }
 
     }

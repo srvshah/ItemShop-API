@@ -65,6 +65,5 @@ namespace ItemShop.Features.Transaction
             return Ok();
         }
 
-
     }
 }

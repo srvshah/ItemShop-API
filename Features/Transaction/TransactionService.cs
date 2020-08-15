@@ -28,7 +28,8 @@ namespace ItemShop.Features.Transaction
                 ProductId = prodId,
                 Quantity = quantity,
                 Rate = product.Price,
-                Total = quantity * product.Price
+                Total = quantity * product.Price,
+                CreatedAt = DateTime.Now
             };
 
             await _context.Transactions.AddAsync(transaction);
@@ -46,7 +47,9 @@ namespace ItemShop.Features.Transaction
                 Quantity = t.Quantity,
                 Rate = t.Rate,
                 Total = t.Total,
-                InvoiceId  = t.InvoiceId
+                InvoiceId  = t.InvoiceId,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
 
             }).ToListAsync();
         }
@@ -63,7 +66,9 @@ namespace ItemShop.Features.Transaction
                 Total = t.Total,
                 InvoiceId = t.InvoiceId  ,
                 CustomerId = t.CustomerId,
-                ProductId = t.ProductId
+                ProductId = t.ProductId,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
 
             }).FirstOrDefaultAsync();
 
@@ -98,6 +103,7 @@ namespace ItemShop.Features.Transaction
             transaction.ProductId = prodId;
             transaction.Quantity = quantity;
             transaction.Total = quantity * product.Price;
+            transaction.UpdatedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
             return true;

@@ -8,6 +8,7 @@ namespace ItemShop.Features.Customer
 {
     using Data.Models;
     using ItemShop.Features.Customer.Models;
+    using ItemShop.Features.Transaction.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class CustomerService : ICustomerService
@@ -92,6 +93,29 @@ namespace ItemShop.Features.Customer
         private static string GetEnumValue(Gender gender)
         {
             return ((int)gender).ToString();
+        }
+
+        public async Task<IEnumerable<TransactionListingModel>> GetCustomerTransactions(int id)
+        {
+            var customer = await _context.Customers
+                .Include(c => c.Transactions)
+                    .ThenInclude(t => t.Product)
+                .Include(c => c.Transactions)
+                    .ThenInclude(t => t.Customer)
+                .Where(c => c.Id == id).FirstOrDefaultAsync();
+
+            return customer.Transactions.Select(t => new TransactionListingModel
+            {
+                Id = t.Id,
+                CustomerName = t.Customer.Name,
+                ProductName = t.Product.Name,
+                InvoiceId = t.InvoiceId,
+                Quantity = t.Quantity,
+                Rate = t.Rate,
+                Total = t.Total,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            });
         }
     }
 }

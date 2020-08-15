@@ -16,6 +16,8 @@
     <Compile Remove="Data\Migrations\20200813123437_AddTransactionInvoiceTables.Designer.cs" />
     <Compile Remove="Data\Migrations\20200814173059_InvoiceDateFormat.cs" />
     <Compile Remove="Data\Migrations\20200814173059_InvoiceDateFormat.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200815085944_AddedCreatedUpdatedDateForTransaction.cs" />
+    <Compile Remove="Data\Migrations\20200815085944_AddedCreatedUpdatedDateForTransaction.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,9 @@ namespace ItemShop.Features.Transaction.Models
         public decimal Total { get; set; }
 
         public int? InvoiceId { get; set; }
-        
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
     }
 }

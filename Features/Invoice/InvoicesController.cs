@@ -48,7 +48,7 @@ namespace ItemShop.Features.Invoice
             return transaction;
         }
 
-        [HttpGet("transactions/{id}")]
+        [HttpGet("{id}/transactions")]
         public async Task<ActionResult<IEnumerable<TransactionListingModel>>> GetInvoiceTransactions(int id)
         {
 

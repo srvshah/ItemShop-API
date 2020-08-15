@@ -113,7 +113,9 @@ namespace ItemShop.Features.Invoice
                 InvoiceId = t.InvoiceId,
                 Quantity = t.Quantity,
                 Rate = t.Rate,
-                Total = t.Total
+                Total = t.Total,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
             });
            
 
