@@ -21,5 +21,6 @@ namespace ItemShop.Features.Transaction.Models
         public int Quantity { get; set; }
 
 
+
     }
 }

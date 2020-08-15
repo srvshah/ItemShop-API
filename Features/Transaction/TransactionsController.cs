@@ -57,7 +57,7 @@ namespace ItemShop.Features.Transaction
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTransaction(int id, TransactionUpdateModel model)
         {
-            var updated = await _service.UpdateTransaction(id, model.CustomerId, model.ProductId, model.Quantity);
+            var updated = await _service.UpdateTransaction(id, model.CustomerId, model.ProductId, model.Quantity, model.TransactionStatus);
             if (!updated)
             {
                 return BadRequest();

@@ -1,4 +1,5 @@
-﻿using ItemShop.Features.Transaction.Models;
+﻿using ItemShop.Data.Models;
+using ItemShop.Features.Transaction.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ItemShop.Features.Transaction
         Task<IEnumerable<TransactionListingModel>> GetAllTransactions();
         Task<TransactionDetailModel> GetTransactionById(int id);
         Task<bool> DeleteTransaction(int id);
-        Task<bool> UpdateTransaction(int id, int custId, int prodId, int quantity);
+        Task<bool> UpdateTransaction(int id, int custId, int prodId, int quantity, string transactionStatus);
         
     }
 }

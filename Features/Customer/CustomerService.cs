@@ -114,7 +114,8 @@ namespace ItemShop.Features.Customer
                 Rate = t.Rate,
                 Total = t.Total,
                 CreatedAt = t.CreatedAt,
-                UpdatedAt = t.UpdatedAt
+                UpdatedAt = t.UpdatedAt,
+                TransactionStatus = t.TransactionStatus.ToString()
             });
         }
     }

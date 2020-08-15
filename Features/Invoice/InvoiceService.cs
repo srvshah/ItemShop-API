@@ -27,7 +27,7 @@ namespace ItemShop.Features.Invoice
         {
             
             var transactions = await _context.Transactions
-                .Where(t => t.CustomerId == custId && t.InvoiceId == null)
+                .Where(t => t.CustomerId == custId && t.InvoiceId == null && t.TransactionStatus == Status.Complete)
                 .ToListAsync();
 
             if(transactions.Count() == 0)
@@ -115,7 +115,8 @@ namespace ItemShop.Features.Invoice
                 Rate = t.Rate,
                 Total = t.Total,
                 CreatedAt = t.CreatedAt,
-                UpdatedAt = t.UpdatedAt
+                UpdatedAt = t.UpdatedAt,
+                TransactionStatus = t.TransactionStatus.ToString()
             });
            
 

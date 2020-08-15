@@ -29,7 +29,9 @@ namespace ItemShop.Features.Transaction
                 Quantity = quantity,
                 Rate = product.Price,
                 Total = quantity * product.Price,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                TransactionStatus = Status.Processing
+                
             };
 
             await _context.Transactions.AddAsync(transaction);
@@ -49,7 +51,8 @@ namespace ItemShop.Features.Transaction
                 Total = t.Total,
                 InvoiceId  = t.InvoiceId,
                 CreatedAt = t.CreatedAt,
-                UpdatedAt = t.UpdatedAt
+                UpdatedAt = t.UpdatedAt,
+                TransactionStatus = t.TransactionStatus.ToString()
 
             }).ToListAsync();
         }
@@ -68,7 +71,8 @@ namespace ItemShop.Features.Transaction
                 CustomerId = t.CustomerId,
                 ProductId = t.ProductId,
                 CreatedAt = t.CreatedAt,
-                UpdatedAt = t.UpdatedAt
+                UpdatedAt = t.UpdatedAt,
+                TransactionStatus = t.TransactionStatus.ToString()
 
             }).FirstOrDefaultAsync();
 
@@ -86,7 +90,7 @@ namespace ItemShop.Features.Transaction
             return true;
         }
 
-        public async Task<bool> UpdateTransaction(int id, int custId, int prodId, int quantity)
+        public async Task<bool> UpdateTransaction(int id, int custId, int prodId, int quantity, string transactionStatus)
         {
             var product = await _context.Products.FindAsync(prodId);
             if (product == null)
@@ -104,11 +108,17 @@ namespace ItemShop.Features.Transaction
             transaction.Quantity = quantity;
             transaction.Total = quantity * product.Price;
             transaction.UpdatedAt = DateTime.Now;
+            transaction.TransactionStatus = GetEnumValue(transactionStatus);
 
             await _context.SaveChangesAsync();
             return true;
         }
 
+        private Status GetEnumValue(string status)
+        {
+            Enum.TryParse(status, out Status myStatus);
+            return myStatus;
+        }
 
 
     }

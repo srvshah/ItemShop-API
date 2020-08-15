@@ -42,5 +42,8 @@ namespace ItemShop.Data.Models
 
         public DateTime? UpdatedAt { get; set; }
 
+        [Required]
+        public Status TransactionStatus { get; set; }
+
     }
 }
