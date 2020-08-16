@@ -19,6 +19,8 @@ using ItemShop.Features.Product;
 using ItemShop.Features.Customer;
 using ItemShop.Features.Transaction;
 using ItemShop.Features.Invoice;
+using Microsoft.OpenApi.Models;
+using ItemShop.Infrastructure;
 
 namespace ItemShop
 {
@@ -70,12 +72,20 @@ namespace ItemShop
 
                 };
             });
+           
             services
                 .AddTransient<IProductService, ProductService>()
                 .AddTransient<ICustomerService, CustomerService>()
                 .AddTransient<ITransactionService, TransactionService>()
                 .AddTransient<IInvoiceService, InvoiceService>();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "ItemShop API"
+                });
+            });
             services.AddControllers();
         }
 
@@ -85,7 +95,6 @@ namespace ItemShop
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             app.UseCors(options => options
                 .AllowAnyOrigin()
@@ -93,7 +102,6 @@ namespace ItemShop
                 .AllowAnyHeader()
             );
 
-            app.UseRouting();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -110,6 +118,7 @@ namespace ItemShop
             {
                 endpoints.MapControllers();
             });
+            app.ApplyMigrations();
         }
     }
 }
